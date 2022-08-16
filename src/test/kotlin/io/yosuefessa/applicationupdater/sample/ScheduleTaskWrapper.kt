@@ -1,20 +1,19 @@
 package io.yosuefessa.applicationupdater.sample
 
 import io.yousefessa.applicationupdater.ApplicationUpdater
+import io.yousefessa.applicationupdater.schedule.ScheduleContext
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import java.util.concurrent.TimeUnit
-import java.util.function.Consumer
-import java.util.function.Function
+import java.util.function.BiConsumer
 
-class ScheduleTaskSample(
-    private val task: Function<ApplicationUpdater, Unit>,
+class ScheduleTaskWrapper(
+    private val task: BiConsumer<ApplicationUpdater, ScheduleContext>,
     private val initialDelay: Long,
     private val delay: Long,
     private val timeUnit: TimeUnit,
 ): ScheduleTask {
-
-    override fun handle(updater: ApplicationUpdater): Unit {
-        this.task.apply(updater)
+    override fun handle(updater: ApplicationUpdater, context: ScheduleContext) {
+        this.task.accept(updater, context)
     }
 
     override fun initialDelay(): Long {

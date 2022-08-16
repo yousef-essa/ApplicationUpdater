@@ -6,7 +6,7 @@ class GitHubDestination(
     private val versionFileName: String,
 ): Destination {
     override fun fileDestination(): String {
-        return GITHUB_LATEST_RELEASE_LINK.format(username, repository)
+        return GITHUB_LATEST_FILE_LINK.format(username, repository)
     }
 
     override fun versionDestination(): String {
@@ -15,13 +15,16 @@ class GitHubDestination(
 
     companion object {
         @JvmStatic
-        private val GITHUB_LINK = "https://github" +
-                ".com/%s/%s"
+        private val GITHUB_LINK = "https://github.com"
 
         @JvmStatic
-        private val GITHUB_LATEST_RELEASE_LINK = "$GITHUB_LINK/%s/releases/latest"
+        private val GITHUB_USER_CONTENT_LINK = "https://raw.githubusercontent" +
+                ".com"
 
         @JvmStatic
-        private val GITHUB_LATEST_VERSION_LINK = "$GITHUB_LINK/raw/%s"
+        val GITHUB_LATEST_FILE_LINK = "$GITHUB_LINK/%s/%s/releases/latest"
+
+        @JvmStatic
+        val GITHUB_LATEST_VERSION_LINK = "$GITHUB_USER_CONTENT_LINK/%s/%s/main/%s"
     }
 }
