@@ -1,15 +1,12 @@
 package io.yosuefessa.applicationupdater
 
-import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.mockScheduleTask
+import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.predefinedUpdaterAndMockedBooleanWrapper
+import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.predefinedUpdaterAndMockedTask
 import io.yosuefessa.applicationupdater.helper.MockitoHelper
-import io.yosuefessa.applicationupdater.wrapper.BooleanWrapper
-import io.yousefessa.applicationupdater.DefaultApplicationUpdater
-import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
 import io.yousefessa.applicationupdater.destination.GitHubDestination
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.atMostOnce
-import org.mockito.Mockito.mock
 import org.mockito.Mockito.never
 import org.mockito.Mockito.timeout
 import org.mockito.Mockito.verify
@@ -24,18 +21,10 @@ class DefaultApplicationUpdaterTest {
 
     @Test
     fun testInitForGradual() {
-        val isTaskCancelled = mock(BooleanWrapper::class.java)
+        val predefinedPair = predefinedUpdaterAndMockedTask(defaultDestination)
 
-        val task: ScheduleTask = mockScheduleTask { context ->
-            println("task ran")
-            isTaskCancelled.boolean(context.cancel)
-        }
-
-        val adapter = mock(ApplicationAdapter::class.java)
-        val updater = DefaultApplicationUpdater(defaultDestination,
-            adapter,
-            task,
-            CURRENT_TEST_VERSION)
+        val updater = predefinedPair.first
+        val task: ScheduleTask = predefinedPair.second
 
         updater.init()
         verify(task, never()).handle(MockitoHelper.anyObject())
@@ -43,18 +32,13 @@ class DefaultApplicationUpdaterTest {
 
     @Test
     fun testInitForTaskExecutionWithCurrentVersion() {
-        val isTaskCancelled = mock(BooleanWrapper::class.java)
+        val predefinedPair = predefinedUpdaterAndMockedBooleanWrapper(
+            defaultDestination,
+            CURRENT_TEST_VERSION
+        )
 
-        val task: ScheduleTask = mockScheduleTask { context ->
-            println("task ran")
-            isTaskCancelled.boolean(context.cancel)
-        }
-
-        val adapter = mock(ApplicationAdapter::class.java)
-        val updater = DefaultApplicationUpdater(defaultDestination,
-            adapter,
-            task,
-            CURRENT_TEST_VERSION)
+        val updater = predefinedPair.first
+        val isTaskCancelled = predefinedPair.second
 
         updater.init()
 
@@ -64,17 +48,13 @@ class DefaultApplicationUpdaterTest {
 
     @Test
     fun testInitForTaskExecutionWithOlderVersion() {
-        val isTaskCancelled = mock(BooleanWrapper::class.java)
-        val task = mockScheduleTask { context ->
-            println("task ran")
-            isTaskCancelled.boolean(context.cancel)
-        }
+        val predefinedPair = predefinedUpdaterAndMockedBooleanWrapper(
+            defaultDestination,
+            OLDER_TEST_VERSION
+        )
 
-        val adapter = mock(ApplicationAdapter::class.java)
-        val updater = DefaultApplicationUpdater(defaultDestination,
-            adapter,
-            task,
-            OLDER_TEST_VERSION)
+        val updater = predefinedPair.first
+        val isTaskCancelled = predefinedPair.second
 
         updater.init()
 
@@ -84,17 +64,10 @@ class DefaultApplicationUpdaterTest {
 
     @Test
     fun testUpdateCheckForImmediateness() {
-        val isTaskCancelled = mock(BooleanWrapper::class.java)
-        val task = mockScheduleTask { context ->
-            println("task ran")
-            isTaskCancelled.boolean(context.cancel)
-        }
+        val predefinedPair = predefinedUpdaterAndMockedTask(defaultDestination)
 
-        val adapter = mock(ApplicationAdapter::class.java)
-        val updater = DefaultApplicationUpdater(defaultDestination,
-            adapter,
-            task,
-            OLDER_TEST_VERSION)
+        val updater = predefinedPair.first
+        val task: ScheduleTask = predefinedPair.second
 
         updater.handleUpdateCheck()
         verify(task, atMostOnce()).handle(MockitoHelper.anyObject())
