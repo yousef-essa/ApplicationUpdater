@@ -1,9 +1,10 @@
 
-import io.yousefessa.applicationupdater.listener.ApplicationAdapter
+import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
 import io.yousefessa.applicationupdater.util.ApplicationUtil
 import java.io.File
 import java.util.function.Consumer
 
+// test
 class DefaultApplicationAdapter(
     private val fileDestination: File,
     private val onComplete: Consumer<File>,

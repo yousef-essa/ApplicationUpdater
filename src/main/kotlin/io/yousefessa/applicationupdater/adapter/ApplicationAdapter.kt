@@ -1,4 +1,4 @@
-package io.yousefessa.applicationupdater.listener
+package io.yousefessa.applicationupdater.adapter
 
 import DefaultApplicationAdapter
 import java.io.File

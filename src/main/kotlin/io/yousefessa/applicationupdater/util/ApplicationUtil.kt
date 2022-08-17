@@ -1,12 +1,29 @@
 package io.yousefessa.applicationupdater.util
 
+import io.yousefessa.applicationupdater.destination.Destination
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-// todo: ClassNotFound is being thrown whenever this utility class (or so called "object")
-//  is being accessed. Further research needs to be achieved to continue throughout the project
 object ApplicationUtil {
+    fun isRemoteVersionNewer(destination: Destination, localVersion: String):
+            Pair<String, Boolean> {
+        val remoteVersion = readLineFrom(destination.versionDestination())
+
+        println("remoteVersion: $remoteVersion")
+        val isRemoteVersionNewer =
+            remoteVersion.isNotEmpty() && remoteVersion > localVersion
+
+        return Pair(remoteVersion, isRemoteVersionNewer)
+    }
+
+    private fun readLineFrom(destinationLink: String): String {
+        val inputStream = getInputStreamFrom(destinationLink) ?: return ""
+        inputStream.bufferedReader().use {
+            return it.readLine()
+        }
+    }
+
     fun getInputStreamFrom(destinationLink: String): InputStream? {
         runCatching {
             val url = URL(destinationLink)

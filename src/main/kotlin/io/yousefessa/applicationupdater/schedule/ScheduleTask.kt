@@ -1,12 +1,5 @@
 package io.yousefessa.applicationupdater.schedule
 
-import io.yousefessa.applicationupdater.ApplicationUpdater
-import java.util.concurrent.TimeUnit
+import io.yousefessa.applicationupdater.meta.Task
 
-interface ScheduleTask {
-    fun handle(updater: ApplicationUpdater, context: ScheduleContext)
-
-    fun initialDelay(): Long
-    fun delay(): Long
-    fun timeUnit(): TimeUnit
-}
+interface ScheduleTask: Task<ScheduleContext>

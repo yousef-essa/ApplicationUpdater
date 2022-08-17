@@ -1,5 +1,8 @@
 package io.yousefessa.applicationupdater.schedule
 
-class ScheduleContext(val version: String) {
+import io.yousefessa.applicationupdater.meta.TaskContext
+
+open class ScheduleContext(private val remoteVersion: String): TaskContext() {
     var cancel = false
+    fun remoteVersion(): String = this.remoteVersion
 }
