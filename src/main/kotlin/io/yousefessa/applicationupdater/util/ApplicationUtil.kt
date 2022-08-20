@@ -79,7 +79,7 @@ object ApplicationUtil {
             val response = reader.lines().collect(Collectors.joining())
             val responseJson = JSONValue.parse(response) as JSONObject
 
-            val version = responseJson[key] as String
+            val version = (responseJson[key] ?: "") as String
             Logger.debug("$key = $version")
 
             return version
