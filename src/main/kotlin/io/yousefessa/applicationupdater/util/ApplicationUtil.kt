@@ -41,7 +41,7 @@ object ApplicationUtil {
         }
     }
 
-    fun getJsonInputStreamFrom(destinationLink: String): InputStream? {
+    private fun getJsonInputStreamFrom(destinationLink: String): InputStream? {
         runCatching {
             val url = URL(destinationLink)
             val connection = url.openConnection() as HttpURLConnection
@@ -66,17 +66,16 @@ object ApplicationUtil {
     fun versionFrom(versionDestination: String): String {
         val inputStream = getInputStreamFrom(versionDestination) ?: return ""
 
-        inputStream.bufferedReader().use { it ->
-            return it.readLine()
+        inputStream.bufferedReader().use { reader ->
+            return reader.readLine()
         }
     }
 
-    // todo: only return the key's value, or empty otherwise
     fun versionFrom(versionDestination: String, key: String): String {
         val inputStream = getJsonInputStreamFrom(versionDestination) ?: return ""
 
-        inputStream.bufferedReader().use {
-            val response = it.lines().collect(Collectors.joining())
+        inputStream.bufferedReader().use { reader ->
+            val response = reader.lines().collect(Collectors.joining())
             val responseJson = JSONValue.parse(response) as JSONObject
 
             val version = responseJson[key] as String

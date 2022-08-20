@@ -40,11 +40,8 @@ object ApplicationUpdaterHelper {
         destination: Destination,
         localVersion: String = "unknown",
     ): Pair<ApplicationUpdater, ScheduleTask> {
-        val isTaskCancelled = Mockito.mock(BooleanWrapper::class.java)
-
-        val task: ScheduleTask = mockScheduleTask { context ->
+        val task: ScheduleTask = mockScheduleTask {
             println("task ran")
-            isTaskCancelled.boolean(context.cancel)
         }
 
         val adapter = Mockito.mock(ApplicationAdapter::class.java)
@@ -68,6 +65,20 @@ object ApplicationUpdaterHelper {
         val updater = defaultApplicationUpdater(destination, adapter, task, localVersion)
 
         return Pair(updater, isTaskCancelled)
+    }
+
+    fun predefinedUpdaterAndMockedAdapter(
+        destination: Destination,
+        localVersion: String = "unknown",
+    ): Pair<ApplicationUpdater, ApplicationAdapter> {
+        val task: ScheduleTask = mockScheduleTask {
+            println("task ran: $it")
+        }
+
+        val adapter = Mockito.mock(ApplicationAdapter::class.java)
+        val updater = defaultApplicationUpdater(destination, adapter, task, localVersion)
+
+        return Pair(updater, adapter)
     }
 
     private fun defaultApplicationUpdater(

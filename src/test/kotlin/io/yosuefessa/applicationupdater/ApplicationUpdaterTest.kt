@@ -1,5 +1,6 @@
 package io.yosuefessa.applicationupdater
 
+import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.predefinedUpdaterAndMockedAdapter
 import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.predefinedUpdaterAndMockedBooleanWrapper
 import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.predefinedUpdaterAndMockedTask
 import io.yosuefessa.applicationupdater.helper.MockitoHelper
@@ -34,7 +35,7 @@ class SimpleApplicationUpdaterTest {
     fun testInitForTaskExecutionWithCurrentVersion() {
         val predefinedPair = predefinedUpdaterAndMockedBooleanWrapper(
             defaultDestination,
-            CURRENT_TEST_VERSION
+            CURRENT_TEST_VERSION,
         )
 
         val updater = predefinedPair.first
@@ -43,14 +44,14 @@ class SimpleApplicationUpdaterTest {
         updater.init()
 
         verify(isTaskCancelled,
-            timeout(Duration.ofSeconds(3).toMillis()).atLeastOnce()).boolean(true)
+            timeout(Duration.ofSeconds(3).toMillis()).only()).boolean(true)
     }
 
     @Test
     fun testInitForTaskExecutionWithOlderVersion() {
         val predefinedPair = predefinedUpdaterAndMockedBooleanWrapper(
             defaultDestination,
-            OLDER_TEST_VERSION
+            OLDER_TEST_VERSION,
         )
 
         val updater = predefinedPair.first
@@ -59,7 +60,7 @@ class SimpleApplicationUpdaterTest {
         updater.init()
 
         verify(isTaskCancelled,
-            timeout(Duration.ofSeconds(3).toMillis()).atLeastOnce()).boolean(false)
+            timeout(Duration.ofSeconds(3).toMillis()).only()).boolean(false)
     }
 
     @Test
@@ -71,5 +72,23 @@ class SimpleApplicationUpdaterTest {
 
         updater.handleUpdateCheck()
         verify(task, atMostOnce()).handle(MockitoHelper.anyObject())
+    }
+
+    @Test
+    fun testDownloadAdapterWhenUpdateIsAvailable() {
+        val predefinedPair = predefinedUpdaterAndMockedAdapter(
+            defaultDestination,
+            OLDER_TEST_VERSION,
+        )
+
+        val updater = predefinedPair.first
+        val adapter = predefinedPair.second
+
+        updater.init()
+
+        verify(
+            adapter,
+            timeout(Duration.ofSeconds(5).toMillis()).only()
+        ).onDownload(MockitoHelper.anyObject())
     }
 }
