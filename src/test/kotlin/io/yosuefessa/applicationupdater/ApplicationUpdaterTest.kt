@@ -3,7 +3,7 @@ package io.yosuefessa.applicationupdater
 import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.predefinedUpdaterAndMockedBooleanWrapper
 import io.yosuefessa.applicationupdater.helper.ApplicationUpdaterHelper.predefinedUpdaterAndMockedTask
 import io.yosuefessa.applicationupdater.helper.MockitoHelper
-import io.yousefessa.applicationupdater.destination.GitHubDestination
+import io.yousefessa.applicationupdater.destination.GitHubReleaseDestination
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.atMostOnce
@@ -17,7 +17,7 @@ private const val OLDER_TEST_VERSION = "0.0.1"
 
 class DefaultApplicationUpdaterTest {
     private val defaultDestination =
-        GitHubDestination("yousef-essa", "ApplicationUpdaterSample", "version")
+        GitHubReleaseDestination("yousef-essa", "ApplicationUpdaterSample")
 
     @Test
     fun testInitForGradual() {

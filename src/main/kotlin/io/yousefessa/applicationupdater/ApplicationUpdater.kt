@@ -39,7 +39,13 @@ abstract class ApplicationUpdater: TaskService {
             return
         }
 
-        adapter().onDownload(destination().fileDestination())
+        val fileInputStream = destination().adapter().fetchFile()
+        if (fileInputStream == null) {
+            println("file input stream is null. returning")
+            return
+        }
+
+        adapter().onDownload(fileInputStream)
     }
 
     private fun dispatchTask(context: ScheduleContext) {

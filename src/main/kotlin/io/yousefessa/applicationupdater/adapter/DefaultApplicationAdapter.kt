@@ -1,7 +1,7 @@
 
 import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
-import io.yousefessa.applicationupdater.util.ApplicationUtil
 import java.io.File
+import java.io.InputStream
 import java.util.function.Consumer
 
 // test
@@ -14,7 +14,7 @@ class DefaultApplicationAdapter(
         println("DefaultApplicationAdapter init's kotlin invoked")
     }
 
-    override fun onDownload(fileDestinationLink: String) {
+    override fun onDownload(inputStream: InputStream) {
         println("now on #onDownload' checking if file exists")
         if (fileDestination.exists()) {
             println("file does exist, delete em")
@@ -22,8 +22,6 @@ class DefaultApplicationAdapter(
         }
 
         println("onDownload")
-        val inputStream = ApplicationUtil.getInputStreamFrom(fileDestinationLink) ?:
-        return
 
         fileDestination.outputStream().use { output ->
             inputStream.use {

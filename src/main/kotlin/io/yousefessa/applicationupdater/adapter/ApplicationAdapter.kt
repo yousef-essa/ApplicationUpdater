@@ -2,10 +2,11 @@ package io.yousefessa.applicationupdater.adapter
 
 import DefaultApplicationAdapter
 import java.io.File
+import java.io.InputStream
 import java.util.function.Consumer
 
 interface ApplicationAdapter {
-    fun onDownload(fileDestinationLink: String)
+    fun onDownload(inputStream: InputStream)
 
     companion object {
         @JvmStatic
