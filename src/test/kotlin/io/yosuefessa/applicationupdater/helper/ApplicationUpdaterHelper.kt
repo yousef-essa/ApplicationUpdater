@@ -2,13 +2,18 @@ package io.yosuefessa.applicationupdater.helper
 
 import io.yosuefessa.applicationupdater.wrapper.BooleanWrapper
 import io.yousefessa.applicationupdater.ApplicationUpdater
-import io.yousefessa.applicationupdater.DefaultApplicationUpdater
+import io.yousefessa.applicationupdater.SimpleApplicationUpdater
 import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
 import io.yousefessa.applicationupdater.destination.Destination
 import io.yousefessa.applicationupdater.schedule.ScheduleContext
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import org.mockito.Mockito
+import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
+
+private const val INITIAL_DELAY_INTERVAL = 1L
+private const val DELAY_INTERVAL = 60L
+private val TIME_UNIT = TimeUnit.SECONDS
 
 object ApplicationUpdaterHelper {
     fun mockAdapter(consumer: Consumer<String>) {
@@ -43,10 +48,7 @@ object ApplicationUpdaterHelper {
         }
 
         val adapter = Mockito.mock(ApplicationAdapter::class.java)
-        val updater = DefaultApplicationUpdater(destination,
-            adapter,
-            task,
-            localVersion)
+        val updater = defaultApplicationUpdater(destination, adapter, task, localVersion)
 
         return Pair(updater, task)
     }
@@ -63,11 +65,18 @@ object ApplicationUpdaterHelper {
         }
 
         val adapter = Mockito.mock(ApplicationAdapter::class.java)
-        val updater = DefaultApplicationUpdater(destination,
-            adapter,
-            task,
-            localVersion)
+        val updater = defaultApplicationUpdater(destination, adapter, task, localVersion)
 
         return Pair(updater, isTaskCancelled)
+    }
+
+    private fun defaultApplicationUpdater(
+        destination: Destination,
+        adapter: ApplicationAdapter,
+        task: ScheduleTask,
+        localVersion: String,
+    ): ApplicationUpdater {
+        return SimpleApplicationUpdater(destination, adapter, task, localVersion,
+            INITIAL_DELAY_INTERVAL, DELAY_INTERVAL, TIME_UNIT)
     }
 }

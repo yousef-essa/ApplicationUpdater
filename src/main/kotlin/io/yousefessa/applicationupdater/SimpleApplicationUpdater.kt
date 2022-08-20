@@ -5,12 +5,14 @@ import io.yousefessa.applicationupdater.destination.Destination
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import java.util.concurrent.TimeUnit
 
-class DefaultApplicationUpdater(
+class SimpleApplicationUpdater(
     private val destination: Destination,
     private val adapter: ApplicationAdapter,
     private val task: ScheduleTask,
-    private val version:
-    String,
+    private val version: String,
+    private val initialDelay: Long,
+    private val delay: Long,
+    private val timeUnit: TimeUnit,
 ) : ApplicationUpdater() {
     override fun scheduledTask(): ScheduleTask {
         return this.task
@@ -29,14 +31,14 @@ class DefaultApplicationUpdater(
     }
 
     override fun initialDelay(): Long {
-        return 1
+        return this.initialDelay
     }
 
     override fun delay(): Long {
-        return 100
+        return this.delay
     }
 
     override fun timeUnit(): TimeUnit {
-        return TimeUnit.SECONDS
+        return this.timeUnit
     }
 }

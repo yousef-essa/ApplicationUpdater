@@ -15,7 +15,7 @@ import java.time.Duration
 private const val CURRENT_TEST_VERSION = "0.1.0"
 private const val OLDER_TEST_VERSION = "0.0.1"
 
-class DefaultApplicationUpdaterTest {
+class SimpleApplicationUpdaterTest {
     private val defaultDestination =
         GitHubReleaseDestination("yousef-essa", "ApplicationUpdaterSample")
 
