@@ -1,5 +1,6 @@
 
 import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
+import org.tinylog.kotlin.Logger
 import java.io.File
 import java.io.InputStream
 import java.util.function.Consumer
@@ -11,17 +12,17 @@ class DefaultApplicationAdapter(
 ) : ApplicationAdapter {
 
     init {
-        println("DefaultApplicationAdapter init's kotlin invoked")
+        Logger.debug("DefaultApplicationAdapter init's kotlin invoked")
     }
 
     override fun onDownload(inputStream: InputStream) {
-        println("now on #onDownload' checking if file exists")
+        Logger.debug("now on #onDownload' checking if file exists")
         if (fileDestination.exists()) {
-            println("file does exist, delete em")
+            Logger.debug("file does exist, delete em")
             fileDestination.deleteRecursively()
         }
 
-        println("onDownload")
+        Logger.debug("onDownload")
 
         fileDestination.outputStream().use { output ->
             inputStream.use {

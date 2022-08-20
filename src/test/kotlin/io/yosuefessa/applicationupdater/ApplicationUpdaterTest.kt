@@ -44,7 +44,7 @@ class SimpleApplicationUpdaterTest {
         updater.init()
 
         verify(isTaskCancelled,
-            timeout(Duration.ofSeconds(3).toMillis()).only()).boolean(true)
+            timeout(Duration.ofSeconds(5).toMillis()).only()).boolean(true)
     }
 
     @Test
@@ -60,7 +60,7 @@ class SimpleApplicationUpdaterTest {
         updater.init()
 
         verify(isTaskCancelled,
-            timeout(Duration.ofSeconds(3).toMillis()).only()).boolean(false)
+            timeout(Duration.ofSeconds(5).toMillis()).only()).boolean(false)
     }
 
     @Test

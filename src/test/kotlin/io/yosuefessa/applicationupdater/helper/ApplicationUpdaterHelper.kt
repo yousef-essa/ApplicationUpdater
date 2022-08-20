@@ -8,6 +8,7 @@ import io.yousefessa.applicationupdater.destination.Destination
 import io.yousefessa.applicationupdater.schedule.ScheduleContext
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import org.mockito.Mockito
+import org.tinylog.kotlin.Logger
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
@@ -41,7 +42,7 @@ object ApplicationUpdaterHelper {
         localVersion: String = "unknown",
     ): Pair<ApplicationUpdater, ScheduleTask> {
         val task: ScheduleTask = mockScheduleTask {
-            println("task ran")
+            Logger.debug("task ran")
         }
 
         val adapter = Mockito.mock(ApplicationAdapter::class.java)
@@ -57,7 +58,7 @@ object ApplicationUpdaterHelper {
         val isTaskCancelled = Mockito.mock(BooleanWrapper::class.java)
 
         val task: ScheduleTask = mockScheduleTask { context ->
-            println("task ran")
+            Logger.debug("task ran")
             isTaskCancelled.boolean(context.cancel)
         }
 
@@ -72,7 +73,7 @@ object ApplicationUpdaterHelper {
         localVersion: String = "unknown",
     ): Pair<ApplicationUpdater, ApplicationAdapter> {
         val task: ScheduleTask = mockScheduleTask {
-            println("task ran: $it")
+            Logger.debug("task ran: $it")
         }
 
         val adapter = Mockito.mock(ApplicationAdapter::class.java)

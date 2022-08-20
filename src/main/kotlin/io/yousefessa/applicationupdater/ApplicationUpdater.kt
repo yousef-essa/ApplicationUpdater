@@ -6,6 +6,7 @@ import io.yousefessa.applicationupdater.meta.TaskService
 import io.yousefessa.applicationupdater.schedule.ScheduleContext
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import io.yousefessa.applicationupdater.util.ApplicationUtil.isRemoteVersionNewer
+import org.tinylog.kotlin.Logger
 import java.util.concurrent.Executors
 
 // todo: replace ExecutorService with Coroutines
@@ -35,13 +36,13 @@ abstract class ApplicationUpdater: TaskService {
 
         // if the context happen to be cancelled, do not continue
         if (context.cancel) {
-            println("cancelled. returning")
+            Logger.debug("cancelled. returning")
             return
         }
 
         val fileInputStream = destination().adapter().fetchFile()
         if (fileInputStream == null) {
-            println("file input stream is null. returning")
+            Logger.debug("file input stream is null. returning")
             return
         }
 

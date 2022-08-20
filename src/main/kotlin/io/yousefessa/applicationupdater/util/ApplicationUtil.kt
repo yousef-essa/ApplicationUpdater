@@ -3,6 +3,7 @@ package io.yousefessa.applicationupdater.util
 import io.yousefessa.applicationupdater.destination.Destination
 import org.json.simple.JSONObject
 import org.json.simple.JSONValue
+import org.tinylog.kotlin.Logger
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -13,7 +14,7 @@ object ApplicationUtil {
             Pair<String, Boolean> {
         val remoteVersion = destination.adapter().fetchVersion()
 
-        println("remoteVersion: $remoteVersion")
+        Logger.debug("remoteVersion: $remoteVersion")
         val isRemoteVersionNewer =
             remoteVersion.isNotEmpty() && remoteVersion > localVersion
 
@@ -79,7 +80,7 @@ object ApplicationUtil {
             val responseJson = JSONValue.parse(response) as JSONObject
 
             val version = responseJson[key] as String
-            println("$key = $version")
+            Logger.debug("$key = $version")
 
             return version
         }

@@ -14,6 +14,8 @@ repositories {
 dependencies {
     implementation(kotlin("stdlib"))
     implementation("com.googlecode.json-simple:json-simple:1.1")
+    implementation("org.tinylog:tinylog-api-kotlin:2.5.0")
+    implementation("org.tinylog:tinylog-impl:2.5.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
