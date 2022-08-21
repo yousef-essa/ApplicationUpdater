@@ -1,7 +1,7 @@
 plugins {
     java
     kotlin("jvm") version "1.6.10"
-    "maven-publish"
+    `maven-publish`
 }
 
 group = "io.yousefessa"
@@ -21,6 +21,14 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
     testImplementation("org.mockito:mockito-core:3.+")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }
 
 tasks {
