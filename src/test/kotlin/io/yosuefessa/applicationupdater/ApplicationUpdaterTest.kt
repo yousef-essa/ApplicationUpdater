@@ -27,7 +27,7 @@ private const val LOWER_CASE_32_CASE_HEX_LEFT_PADDED = "%032x"
 
 private const val GITHUB_USERNAME = "yousef-essa"
 private const val GITHUB_REPOSITORY = "ApplicationUpdaterSample"
-private const val RELEASE_FILE_NAME = "ApplicationUpdaterSample-0.1.0.jar"
+private const val RELEASE_FILE_NAME = "ApplicationUpdaterSample.jar"
 
 class SimpleApplicationUpdaterTest {
     private val defaultDestination =
@@ -106,7 +106,7 @@ class SimpleApplicationUpdaterTest {
     }
 
     @Test
-    fun testDownloadJarWhenUpdateIsAvailable() {
+    fun testDownloadFunctionalityWhenUpdateIsAvailable() {
         var signature = ""
         val predefinedPair = predefinedUpdaterAndMockedAdapter(
             defaultDestination,

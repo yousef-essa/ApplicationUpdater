@@ -4,21 +4,19 @@ import io.yousefessa.applicationupdater.destination.GitHubReleaseDestination
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-private const val USERNAME = "yousef-essa"
-private const val REPOSITORY = "ApplicationUpdaterSample"
-private const val VERSION_NAME = "version"
-
+private const val GITHUB_USERNAME = "yousef-essa"
+private const val GITHUB_REPOSITORY = "ApplicationUpdaterSample"
 private const val RELEASE_FILE_NAME = "ApplicationUpdaterSample-0.1.0.jar"
 
 class GithubDestinationTest {
-    private val githubReleaseDestination = GitHubReleaseDestination(USERNAME,
-        REPOSITORY, RELEASE_FILE_NAME)
+    private val githubReleaseDestination = GitHubReleaseDestination(GITHUB_USERNAME,
+        GITHUB_REPOSITORY, RELEASE_FILE_NAME)
 
     @Test
     fun testVersionDestination() {
         val expectedVersionDestination = githubReleaseDestination.versionDestination()
         val actualVersionDestination = GitHubReleaseDestination.GITHUB_LATEST_VERSION_LINK
-            .format(USERNAME, REPOSITORY, VERSION_NAME)
+            .format(GITHUB_USERNAME, GITHUB_REPOSITORY)
 
         assertEquals(expectedVersionDestination, actualVersionDestination)
     }
@@ -27,7 +25,7 @@ class GithubDestinationTest {
     fun testFileDestination() {
         val expectedFileDestination = githubReleaseDestination.fileDestination()
         val actualFileDestination = GitHubReleaseDestination.GITHUB_LATEST_FILE_LINK.format(
-            USERNAME, REPOSITORY)
+            GITHUB_USERNAME, GITHUB_REPOSITORY, RELEASE_FILE_NAME)
 
         assertEquals(expectedFileDestination, actualFileDestination)
     }
