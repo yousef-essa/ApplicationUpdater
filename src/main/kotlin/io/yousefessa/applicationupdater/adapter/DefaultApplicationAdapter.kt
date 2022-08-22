@@ -5,7 +5,6 @@ import java.io.File
 import java.io.InputStream
 import java.util.function.Consumer
 
-// test
 class DefaultApplicationAdapter(
     private val fileDestination: File,
     private val onComplete: Consumer<File>,

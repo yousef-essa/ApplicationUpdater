@@ -8,9 +8,11 @@ private const val USERNAME = "yousef-essa"
 private const val REPOSITORY = "ApplicationUpdaterSample"
 private const val VERSION_NAME = "version"
 
+private const val RELEASE_FILE_NAME = "ApplicationUpdaterSample-0.1.0.jar"
+
 class GithubDestinationTest {
     private val githubReleaseDestination = GitHubReleaseDestination(USERNAME,
-        REPOSITORY)
+        REPOSITORY, RELEASE_FILE_NAME)
 
     @Test
     fun testVersionDestination() {

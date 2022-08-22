@@ -5,11 +5,12 @@ import io.yousefessa.applicationupdater.destination.adapter.DestinationAdapter
 class GitHubReleaseDestination(
     private val username: String,
     private val repository: String,
+    private val fileName: String,
 ): Destination {
     private val adapter: DestinationAdapter = GitHubReleaseDestinationAdapter(this)
 
     override fun fileDestination(): String {
-        return GITHUB_LATEST_FILE_LINK.format(username, repository)
+        return GITHUB_LATEST_FILE_LINK.format(username, repository, fileName)
     }
 
     override fun versionDestination(): String {
@@ -21,15 +22,15 @@ class GitHubReleaseDestination(
     }
 
     companion object {
-        private val GITHUB_LINK = "https://github.com"
+        private const val GITHUB_LINK = "https://github.com"
 
-        private val GITHUB_RELEASE_API_LINK = "https://api.github" +
-                ".com/repos/%s/%s/releases/latest"
-
-        @JvmStatic
-        val GITHUB_LATEST_FILE_LINK = "$GITHUB_LINK/%s/%s/releases/latest"
+        private const val GITHUB_RELEASE_API_LINK = "https://api.github" +
+                ".com"
 
         @JvmStatic
-        val GITHUB_LATEST_VERSION_LINK = GITHUB_RELEASE_API_LINK
+        val GITHUB_LATEST_FILE_LINK = "$GITHUB_LINK/%s/%s/releases/latest/download/%s"
+
+        @JvmStatic
+        val GITHUB_LATEST_VERSION_LINK = "$GITHUB_RELEASE_API_LINK/repos/%s/%s/releases/latest"
     }
 }

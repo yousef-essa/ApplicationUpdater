@@ -9,6 +9,7 @@ import io.yousefessa.applicationupdater.schedule.ScheduleContext
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import org.mockito.Mockito
 import org.tinylog.kotlin.Logger
+import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
@@ -17,12 +18,13 @@ private const val DELAY_INTERVAL = 60L
 private val TIME_UNIT = TimeUnit.SECONDS
 
 object ApplicationUpdaterHelper {
-    fun mockAdapter(consumer: Consumer<String>) {
+    fun mockAdapter(consumer: Consumer<InputStream>): ApplicationAdapter {
         val adapter = Mockito.mock(ApplicationAdapter::class.java)
         Mockito.`when`(adapter.onDownload(MockitoHelper.anyObject())).then {
-            val fileDestinationLink = it.getArgument<String>(0)
-            consumer.accept(fileDestinationLink)
+            val fileInputStream = it.getArgument<InputStream>(0)
+            consumer.accept(fileInputStream)
         }
+        return adapter
     }
 
     private fun mockScheduleTask(
@@ -71,12 +73,12 @@ object ApplicationUpdaterHelper {
     fun predefinedUpdaterAndMockedAdapter(
         destination: Destination,
         localVersion: String = "unknown",
+        adapter: ApplicationAdapter = Mockito.mock(ApplicationAdapter::class.java)
     ): Pair<ApplicationUpdater, ApplicationAdapter> {
         val task: ScheduleTask = mockScheduleTask {
             Logger.debug("task ran: $it")
         }
 
-        val adapter = Mockito.mock(ApplicationAdapter::class.java)
         val updater = defaultApplicationUpdater(destination, adapter, task, localVersion)
 
         return Pair(updater, adapter)
