@@ -4,12 +4,12 @@ import io.yosuefessa.applicationupdater.wrapper.BooleanWrapper
 import io.yousefessa.applicationupdater.ApplicationUpdater
 import io.yousefessa.applicationupdater.SimpleApplicationUpdater
 import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
+import io.yousefessa.applicationupdater.adapter.ApplicationAdapterContext
 import io.yousefessa.applicationupdater.destination.Destination
 import io.yousefessa.applicationupdater.schedule.ScheduleContext
 import io.yousefessa.applicationupdater.schedule.ScheduleTask
 import org.mockito.Mockito
 import org.tinylog.kotlin.Logger
-import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
@@ -18,11 +18,11 @@ private const val DELAY_INTERVAL = 60L
 private val TIME_UNIT = TimeUnit.SECONDS
 
 object ApplicationUpdaterHelper {
-    fun mockAdapter(consumer: Consumer<InputStream>): ApplicationAdapter {
+    fun mockAdapter(consumer: Consumer<ApplicationAdapterContext>): ApplicationAdapter {
         val adapter = Mockito.mock(ApplicationAdapter::class.java)
         Mockito.`when`(adapter.onDownload(MockitoHelper.anyObject())).then {
-            val fileInputStream = it.getArgument<InputStream>(0)
-            consumer.accept(fileInputStream)
+            val context = it.getArgument<ApplicationAdapterContext>(0)
+            consumer.accept(context)
         }
         return adapter
     }

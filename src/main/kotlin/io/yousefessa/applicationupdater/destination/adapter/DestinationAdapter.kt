@@ -2,9 +2,11 @@ package io.yousefessa.applicationupdater.destination.adapter
 
 import io.yousefessa.applicationupdater.destination.Destination
 import java.io.InputStream
+import java.net.URLConnection
+import java.sql.Connection
 
 interface DestinationAdapter {
-    fun fetchFile(): InputStream?
+    fun fetchFile(): Pair<URLConnection, InputStream>?
     fun fetchVersion(): String
 
     companion object {

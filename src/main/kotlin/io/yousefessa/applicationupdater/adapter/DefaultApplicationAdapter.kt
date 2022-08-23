@@ -1,8 +1,8 @@
 
 import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
+import io.yousefessa.applicationupdater.adapter.ApplicationAdapterContext
 import org.tinylog.kotlin.Logger
 import java.io.File
-import java.io.InputStream
 import java.util.function.Consumer
 
 class DefaultApplicationAdapter(
@@ -14,7 +14,8 @@ class DefaultApplicationAdapter(
         Logger.debug("DefaultApplicationAdapter init's kotlin invoked")
     }
 
-    override fun onDownload(inputStream: InputStream) {
+    override fun onDownload(context: ApplicationAdapterContext) {
+        val inputStream = context.inputStream
         Logger.debug("now on #onDownload' checking if file exists")
         if (fileDestination.exists()) {
             Logger.debug("file does exist, delete em")

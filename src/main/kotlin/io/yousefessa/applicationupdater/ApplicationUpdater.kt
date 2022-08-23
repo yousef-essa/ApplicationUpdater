@@ -1,6 +1,7 @@
 package io.yousefessa.applicationupdater
 
 import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
+import io.yousefessa.applicationupdater.adapter.ApplicationAdapterContext
 import io.yousefessa.applicationupdater.destination.Destination
 import io.yousefessa.applicationupdater.meta.TaskService
 import io.yousefessa.applicationupdater.schedule.ScheduleContext
@@ -40,13 +41,13 @@ abstract class ApplicationUpdater: TaskService {
             return
         }
 
-        val fileInputStream = destination().adapter().fetchFile()
-        if (fileInputStream == null) {
-            Logger.debug("file input stream is null. returning")
+        val resultPair = destination().adapter().fetchFile()
+        if (resultPair == null) {
+            Logger.debug("fetch file is null. returning")
             return
         }
 
-        adapter().onDownload(fileInputStream)
+        adapter().onDownload(ApplicationAdapterContext(resultPair.first, resultPair.second))
     }
 
     private fun dispatchTask(context: ScheduleContext) {

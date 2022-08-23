@@ -7,6 +7,7 @@ import org.tinylog.kotlin.Logger
 import java.io.InputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLConnection
 import java.util.stream.Collectors
 
 object ApplicationUtil {
@@ -21,7 +22,7 @@ object ApplicationUtil {
         return Pair(remoteVersion, isRemoteVersionNewer)
     }
 
-    fun getInputStreamFrom(destinationLink: String): InputStream? {
+    fun getInputStreamFrom(destinationLink: String): Pair<URLConnection, InputStream>? {
         runCatching {
             val url = URL(destinationLink)
             val connection = url.openConnection() as HttpURLConnection
@@ -33,10 +34,10 @@ object ApplicationUtil {
             connection.doOutput = false
 
             if (connection.responseCode > 299) {
-                return connection.errorStream
+                return Pair(connection, connection.errorStream)
             }
 
-            return connection.inputStream
+            return Pair(connection, connection.inputStream)
         }.getOrElse {
             return null
         }
@@ -65,7 +66,7 @@ object ApplicationUtil {
     }
 
     fun versionFrom(versionDestination: String): String {
-        val inputStream = getInputStreamFrom(versionDestination) ?: return ""
+        val inputStream = getInputStreamFrom(versionDestination)?.second ?: return ""
 
         inputStream.bufferedReader().use { reader ->
             return reader.readLine()

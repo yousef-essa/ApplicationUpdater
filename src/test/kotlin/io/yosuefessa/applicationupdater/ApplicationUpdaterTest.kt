@@ -111,9 +111,10 @@ class SimpleApplicationUpdaterTest {
         val predefinedPair = predefinedUpdaterAndMockedAdapter(
             defaultDestination,
             OLDER_TEST_VERSION,
-            mockAdapter { input ->
+            mockAdapter { context ->
                 val file = File("sample.jar")
 
+                val input = context.inputStream
                 input.use {
                     file.outputStream().use { output ->
                         input.copyTo(output)
