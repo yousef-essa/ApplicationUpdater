@@ -11,7 +11,7 @@ import org.tinylog.kotlin.Logger
 import java.util.concurrent.Executors
 
 // todo: replace ExecutorService with Coroutines
-abstract class ApplicationUpdater: TaskService {
+open abstract class ApplicationUpdater: TaskService {
     private var executor = Executors.newSingleThreadScheduledExecutor()
 
     override fun init() {

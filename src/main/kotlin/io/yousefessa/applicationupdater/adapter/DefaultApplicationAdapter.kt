@@ -1,17 +1,15 @@
-
-import io.yousefessa.applicationupdater.adapter.ApplicationAdapter
-import io.yousefessa.applicationupdater.adapter.ApplicationAdapterContext
+package io.yousefessa.applicationupdater.adapter
 import org.tinylog.kotlin.Logger
 import java.io.File
 import java.util.function.Consumer
 
-class DefaultApplicationAdapter(
+open class DefaultApplicationAdapter(
     private val fileDestination: File,
     private val onComplete: Consumer<File>,
 ) : ApplicationAdapter {
 
     init {
-        Logger.debug("DefaultApplicationAdapter init's kotlin invoked")
+        Logger.debug("io.yousefessa.applicationupdater.adapter.DefaultApplicationAdapter init's kotlin invoked")
     }
 
     override fun onDownload(context: ApplicationAdapterContext) {

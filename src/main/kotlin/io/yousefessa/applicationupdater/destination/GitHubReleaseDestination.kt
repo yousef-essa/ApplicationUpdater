@@ -2,7 +2,7 @@ package io.yousefessa.applicationupdater.destination
 
 import io.yousefessa.applicationupdater.destination.adapter.DestinationAdapter
 
-class GitHubReleaseDestination(
+open class GitHubReleaseDestination(
     private val username: String,
     private val repository: String,
     private val fileName: String,

@@ -1,6 +1,6 @@
 package io.yousefessa.applicationupdater.adapter
 
-import DefaultApplicationAdapter
+import io.yousefessa.applicationupdater.adapter.DefaultApplicationAdapter
 import java.io.File
 import java.util.function.Consumer
 
